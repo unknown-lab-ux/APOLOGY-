@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>I'm Sorry 💔</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+/* =============================================
+   RESET
+============================================= */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+/* =============================================
+   ROOT VARIABLES
+============================================= */
+:root {
+  --red:    #ff0033;
+  --rose:   #ff3366;
+  --bg:     #000000;
+  --card:   #111111;
+  --card2:  #191919;
+  --white:  #ffffff;
+  --gray:   #888888;
+  --lgray:  #cccccc;
+  --glow:   rgba(255,0,51,.35);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =============================================
+   SCROLL PROGRESS BAR
+============================================= */
+#progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--red), var(--rose));
+  box-shadow: 0 0 14px var(--red);
+  z-index: 9999;
+  transition: width .08s linear;
+}
+
+/* =============================================
+   FLOATING PARTICLES
+============================================= */
+#ptcl-wrap {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.ptcl {
+  position: absolute;
+  bottom: -30px;
+  animation: ptcl-rise linear infinite;
+  opacity: 0;
+  user-select: none;
+}
+@keyframes ptcl-rise {
+  0%   { transform: translateY(0) scale(.6) rotate(0deg);  opacity: 0; }
+  8%   { opacity: .6; }
+  88%  { opacity: .3; }
+  100% { transform: translateY(-110vh) scale(1.1) rotate(25deg); opacity: 0; }
+}
+
+/* =============================================
+   SECTIONS
+============================================= */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 48px 20px;
+}
+
+/* =============================================
+   REVEAL ANIMATION
+============================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(44px);
+  transition:
+    opacity  .75s cubic-bezier(.16,1,.3,1),
+    transform .75s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: .10s; }
+.d2 { transition-delay: .20s; }
+.d3 { transition-delay: .30s; }
+.d4 { transition-delay: .40s; }
+
+/* =============================================
+   HERO
+============================================= */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px 80px;
+  background: radial-gradient(ellipse 80% 55% at 50% 50%, rgba(255,0,50,.09) 0%, transparent 70%);
+  overflow: hidden;
+}
+
+#rain-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  opacity: .28;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 14vw, 5.5rem);
+  font-weight: 900;
+  color: var(--red);
+  letter-spacing: 6px;
+  line-height: 1;
+  margin-bottom: 18px;
+  text-shadow:
+    0 0 20px var(--red),
+    0 0 60px rgba(255,0,50,.75),
+    0 0 130px rgba(255,0,50,.45);
+  animation: neon-flicker 2.8s ease-in-out infinite;
+  position: relative; z-index: 1;
+}
+
+.hero-emojis {
+  font-size: 2.8rem;
+  display: block;
+  margin-bottom: 20px;
+  animation: float-bob 2s ease-in-out infinite;
+  position: relative; z-index: 1;
+}
+
+#typewriter {
+  font-size: clamp(.95rem, 4.5vw, 1.25rem);
+  color: var(--lgray);
+  font-weight: 300;
+  min-height: 2rem;
+  letter-spacing: .5px;
+  position: relative; z-index: 1;
+}
+#typewriter::after {
+  content: '|';
+  color: var(--red);
+  animation: blink .8s step-end infinite;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,.22);
+  font-size: .62rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  z-index: 1;
+}
+.scroll-arrow {
+  width: 16px; height: 16px;
+  border-right: 2px solid rgba(255,0,51,.4);
+  border-bottom: 2px solid rgba(255,0,51,.4);
+  transform: rotate(45deg);
+  animation: arrow-fall 1.6s ease-in-out infinite;
+}
+
+/* =============================================
+   GIF SECTION
+============================================= */
+#gifs { padding: 20px 20px 40px; }
+
+.gif-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.gif-box {
+  flex: 1;
+  min-width: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,0,51,.14);
+  background: var(--card);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gif-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =============================================
+   EMOTIONAL CARDS
+============================================= */
+#emotion-cards { padding: 8px 20px 36px; }
+
+.em-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.em-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 28px 22px;
+  text-align: center;
+  border: 1px solid rgba(255,0,51,.07);
+  box-shadow: 0 4px 30px rgba(0,0,0,.5);
+}
+
+.em-card.red-glow {
+  background: linear-gradient(160deg,#120a0e,#111111);
+  border: 1px solid rgba(255,0,51,.2);
+  box-shadow: 0 0 30px rgba(255,0,51,.06), 0 4px 30px rgba(0,0,0,.5);
+}
+
+.em-emoji { font-size: 3rem; display: block; margin-bottom: 14px; }
+.em-card:nth-child(1) .em-emoji { animation: heartbreak-shake 1.8s ease-in-out infinite; }
+.em-card:nth-child(2) .em-emoji { animation: pleading-wobble 1.6s ease-in-out infinite; }
+.em-card:nth-child(3) .em-emoji { animation: matter-float 2.2s ease-in-out infinite; }
+.em-card:nth-child(4) .em-emoji {
+  animation: heartbeat .95s ease-in-out infinite;
+  filter: drop-shadow(0 0 14px rgba(255,0,51,.7));
+}
+
+.em-title { font-size: 1.32rem; font-weight: 800; margin-bottom: 9px; }
+.em-text  { font-size: .88rem; color: var(--lgray); font-weight: 300; line-height: 1.65; }
+
+/* =============================================
+   PHOTO SECTION
+============================================= */
+#photo-section { padding: 8px 20px 36px; }
+
+.photo-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 28px 22px;
+  max-width: 440px;
+  margin: 0 auto;
+  text-align: center;
+  border: 1px solid rgba(255,0,51,.12);
+  box-shadow: 0 4px 40px rgba(0,0,0,.6);
+}
+
+.photo-frame {
+  width: 190px; height: 190px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 0 auto 22px;
+  border: 3px solid var(--red);
+  box-shadow: 0 0 28px var(--glow), 0 0 70px rgba(255,0,51,.1);
+}
+
+.photo-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+.photo-sub   { font-size: .9rem; color: var(--lgray); font-weight: 300; }
+
+/* =============================================
+   VIDEO SECTION
+============================================= */
+#video-section { padding: 8px 20px 36px; }
+
+.video-heading {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.video-wrap {
+  max-width: 440px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px solid rgba(255,0,51,.18);
+  box-shadow: 0 0 50px rgba(255,0,51,.07);
+  background: #050505;
+}
+
+.video-wrap video {
+  width: 100%;
+  display: block;
+  max-height: 72vh;
+}
+
+/* =============================================
+   SONG SECTION
+============================================= */
+#song-section { padding: 8px 20px 36px; }
+
+.sec-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.song-card {
+  max-width: 440px;
+  margin: 0 auto;
+  background: linear-gradient(145deg,#120a12,#0d0d0d);
+  border-radius: 22px;
+  padding: 26px 22px;
+  border: 1px solid rgba(255,0,51,.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.song-blob {
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle,rgba(255,0,51,.07) 0%,transparent 65%);
+  animation: blob-drift 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.song-header {
+  display: flex; gap: 14px; align-items: center;
+  margin-bottom: 18px;
+  position: relative; z-index: 1;
+}
+
+.song-disc {
+  width: 66px; height: 66px;
+  border-radius: 50%;
+  background: conic-gradient(#ff0033, #550011, #ff3366, #ff0033);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  animation: disc-spin 4s linear infinite;
+  box-shadow: 0 0 22px rgba(255,0,51,.5);
+  position: relative;
+}
+
+.song-disc::after {
+  content: '';
+  position: absolute;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid rgba(255,0,51,.3);
+}
+
+.song-meta   { flex: 1; position: relative; z-index: 1; }
+.song-name   { font-size: .98rem; font-weight: 700; margin-bottom: 4px; }
+.song-artist { font-size: .78rem; color: var(--gray); }
+
+.song-tagline {
+  font-size: .8rem; color: #aaa; font-style: italic;
+  text-align: center;
+  margin-bottom: 16px;
+  border-top: 1px solid rgba(255,255,255,.05);
+  padding-top: 14px;
+  position: relative; z-index: 1;
+}
+
+.viz {
+  display: flex; gap: 4px;
+  align-items: flex-end;
+  height: 34px;
+  justify-content: center;
+  position: relative; z-index: 1;
+}
+.viz-bar {
+  width: 5px; border-radius: 3px;
+  background: linear-gradient(0deg, var(--red), var(--rose));
+  animation: viz-dance .75s ease-in-out infinite;
+  transform-origin: bottom;
+}
+.viz-bar:nth-child(1){height:45%;animation-delay:.00s}
+.viz-bar:nth-child(2){height:85%;animation-delay:.07s}
+.viz-bar:nth-child(3){height:35%;animation-delay:.14s}
+.viz-bar:nth-child(4){height:70%;animation-delay:.21s}
+.viz-bar:nth-child(5){height:100%;animation-delay:.09s}
+.viz-bar:nth-child(6){height:52%;animation-delay:.28s}
+.viz-bar:nth-child(7){height:78%;animation-delay:.17s}
+.viz-bar:nth-child(8){height:40%;animation-delay:.03s}
+.viz-bar:nth-child(9){height:62%;animation-delay:.25s}
+
+/* =============================================
+   GALLERY OF PERFECTION
+============================================= */
+#gallery { padding: 8px 20px 36px; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.g-item {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.05);
+  background: #0a0a0a;
+  position: relative;
+}
+
+.g-item:first-child {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 9;
+}
+
+.g-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s ease;
+}
+
+.g-item:active img { transform: scale(1.06); }
+
+/* =============================================
+   HEARTFELT MESSAGE
+============================================= */
+#heartfelt { padding: 8px 20px 36px; }
+
+.hf-card {
+  max-width: 440px;
+  margin: 0 auto;
+  background: linear-gradient(160deg,#130810,#0f0f0f);
+  border-radius: 22px;
+  padding: 32px 24px;
+  border: 1px solid rgba(255,0,51,.15);
+  text-align: center;
+  box-shadow: 0 0 60px rgba(255,0,51,.04);
+}
+
+.hf-icon {
+  font-size: 2.8rem;
+  display: block;
+  margin-bottom: 18px;
+  animation: heartbeat 1.1s ease-in-out infinite;
+  filter: drop-shadow(0 0 14px rgba(255,0,51,.6));
+}
+
+.hf-section-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin-bottom: 22px;
+}
+
+.hf-para {
+  font-size: .9rem;
+  color: var(--lgray);
+  line-height: 1.9;
+  font-weight: 300;
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.hf-para:last-of-type { margin-bottom: 0; }
+
+.hf-divider {
+  width: 40px; height: 2px;
+  background: var(--red);
+  margin: 18px auto;
+  border-radius: 2px;
+  opacity: .5;
+}
+
+/* =============================================
+   PROMISES
+============================================= */
+#promises { padding: 8px 20px 36px; }
+
+.promises-wrap { max-width: 440px; margin: 0 auto; }
+
+.promises-heading {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 22px;
+}
+
+.p-card {
+  background: var(--card2);
+  border-radius: 16px;
+  padding: 17px 18px;
+  margin-bottom: 11px;
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  border-left: 3px solid var(--red);
+  box-shadow: 0 3px 20px rgba(0,0,0,.4);
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.p-card.in { opacity: 1; transform: translateX(0); }
+
+.p-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+.p-text { font-size: .87rem; color: var(--lgray); line-height: 1.55; font-weight: 300; }
+
+/* =============================================
+   CTA SECTION
+============================================= */
+#cta {
+  text-align: center;
+  padding: 50px 24px 100px;
+  background: radial-gradient(ellipse 90% 60% at 50% 50%, rgba(255,0,50,.06) 0%, transparent 70%);
+}
+
+.cta-pre {
+  font-size: .82rem;
+  color: var(--gray);
+  letter-spacing: 1.5px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.cta-question {
+  font-size: clamp(1.4rem, 5.5vw, 1.8rem);
+  font-weight: 800;
+  margin-bottom: 36px;
+  line-height: 1.3;
+}
+
+.wa-btn {
+  display: inline-block;
+  background: linear-gradient(140deg, #ff0033, #cc001a);
+  color: #fff;
+  padding: 20px 44px;
+  border-radius: 50px;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: .4px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 32px rgba(255,0,51,.6),
+    0 0 80px rgba(255,0,51,.22),
+    inset 0 1px 0 rgba(255,255,255,.12);
+  animation: btn-throb 2s ease-in-out infinite;
+  transition: transform .15s ease;
+  text-decoration: none;
+}
+
+.wa-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+  animation: sweep 2.8s ease-in-out infinite;
+}
+
+.wa-btn:active { transform: scale(.96); }
+
+/* =============================================
+   KEYFRAMES
+============================================= */
+@keyframes neon-flicker {
+  0%,100% {
+    text-shadow:0 0 20px var(--red),0 0 60px rgba(255,0,50,.75),0 0 130px rgba(255,0,50,.45);
+  }
+  48% {
+    text-shadow:0 0 28px var(--red),0 0 80px rgba(255,0,50,.85),0 0 160px rgba(255,0,50,.55);
+  }
+  50% {
+    text-shadow:0 0 14px var(--red),0 0 38px rgba(255,0,50,.4),0 0 70px rgba(255,0,50,.22);
+  }
+  52% {
+    text-shadow:0 0 28px var(--red),0 0 80px rgba(255,0,50,.85),0 0 160px rgba(255,0,50,.55);
+  }
+}
+
+@keyframes float-bob {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+@keyframes arrow-fall {
+  0%,100% { transform: rotate(45deg) translateY(0); opacity:.4; }
+  50%      { transform: rotate(45deg) translateY(6px); opacity:.8; }
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  14%      { transform: scale(1.2); }
+  28%      { transform: scale(1); }
+  42%      { transform: scale(1.12); }
+  56%      { transform: scale(1); }
+}
+
+@keyframes heartbreak-shake {
+  0%,100% { transform: scale(1) rotate(0); }
+  30%      { transform: scale(1.07) rotate(-4deg); }
+  60%      { transform: scale(.93) rotate(4deg); }
+}
+
+@keyframes pleading-wobble {
+  0%,100% { transform: scale(1) rotate(0); }
+  25%      { transform: scale(1.1) rotate(-6deg); }
+  75%      { transform: scale(.95) rotate(6deg); }
+}
+
+@keyframes matter-float {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-8px) scale(1.05); }
+}
+
+@keyframes disc-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes viz-dance {
+  0%,100% { transform: scaleY(.32); }
+  50%      { transform: scaleY(1); }
+}
+
+@keyframes blob-drift {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%      { transform: translate(-10px,12px) scale(1.1); }
+}
+
+@keyframes btn-throb {
+  0%,100% {
+    box-shadow:0 0 32px rgba(255,0,51,.6),0 0 80px rgba(255,0,51,.22),
+               inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  50% {
+    box-shadow:0 0 55px rgba(255,0,51,.85),0 0 130px rgba(255,0,51,.42),
+               inset 0 1px 0 rgba(255,255,255,.12);
+  }
+}
+
+@keyframes sweep {
+  0%       { left: -100%; }
+  45%,100% { left: 100%; }
+}
+
+/* =============================================
+   REDUCED MOTION
+============================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .p-card { opacity: 1 !important; transform: none !important; }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Scroll progress bar -->
+<div id="progress"></div>
+
+<!-- Floating heart particles background -->
+<div id="ptcl-wrap"></div>
+
+
+<!-- ============================================================
+     SECTION 1 · HERO
+============================================================ -->
+<section id="hero">
+  <canvas id="rain-canvas"></canvas>
+
+  <h1 class="hero-title">SORRYYYYY</h1>
+  <span class="hero-emojis">😭 ❤️</span>
+  <p id="typewriter"></p>
+
+  <div class="scroll-cue">
+    <span>scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 2 · GIF ROW
+     ► Put gif1.gif · gif2.gif · gif3.gif in the same folder
+============================================================ -->
+<section id="gifs">
+  <div class="gif-row">
+    <div class="gif-box reveal">
+      <img src="gif1.gif" alt="">
+    </div>
+    <div class="gif-box reveal d1">
+      <img src="gif2.gif" alt="">
+    </div>
+    <div class="gif-box reveal d2">
+      <img src="gif3.gif" alt="">
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 3 · EMOTIONAL CARDS
+============================================================ -->
+<section id="emotion-cards">
+  <div class="em-stack">
+
+    <div class="em-card reveal">
+      <span class="em-emoji">💔</span>
+      <h3 class="em-title">It Was My Fault</h3>
+      <p class="em-text">I realize my words hurt you deeply. No excuses, no justifications — just a genuine, heartfelt sorry.</p>
+    </div>
+
+    <div class="em-card reveal d1">
+      <span class="em-emoji">🥺</span>
+      <h3 class="em-title">Please Don't Stay Mad</h3>
+      <p class="em-text">Everything feels off without you. The world honestly makes no sense when you're upset with me.</p>
+    </div>
+
+    <div class="em-card reveal d2">
+      <span class="em-emoji">❤️</span>
+      <h3 class="em-title">You Matter</h3>
+      <p class="em-text">You are the most important part of my life. I don't take that lightly — not for a single second.</p>
+    </div>
+
+    <div class="em-card red-glow reveal d3">
+      <span class="em-emoji">❤️</span>
+      <h3 class="em-title">My Heart Beats For You ❤️</h3>
+      <p class="em-text">Please let go of the anger... I miss you more than any words can ever explain.</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 4 · PHOTO
+     ► Put your photo as image.png in the same folder
+============================================================ -->
+<section id="photo-section">
+  <div class="photo-card reveal">
+    <div class="photo-frame">
+      <img src="image.png" alt="Photo">
+    </div>
+    <h3 class="photo-title">SORRYYYYY 😭</h3>
+    <p class="photo-sub">Just one forgiveness please... that's all I'm asking for.</p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 5 · VIDEO
+     ► Put your video as video.mp4 in the same folder
+============================================================ -->
+<section id="video-section">
+  <p class="video-heading reveal">Just Watch This ❤️</p>
+  <div class="video-wrap reveal d1">
+    <video controls playsinline preload="metadata">
+      <source src="video.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 6 · SONG DEDICATED TO YOU
+     ► Edit song name & artist below
+============================================================ -->
+<section id="song-section">
+  <p class="sec-title reveal">🎵 A Song Dedicated To You</p>
+  <div class="song-card reveal d1">
+    <div class="song-blob"></div>
+    <div class="song-header">
+      <div class="song-disc">🎵</div>
+      <div class="song-meta">
+        <div class="song-name">Song Name Here</div>      <!-- ← EDIT -->
+        <div class="song-artist">Artist Name</div>       <!-- ← EDIT -->
+      </div>
+    </div>
+    <p class="song-tagline">"This one's for you... every single word is meant for you 💔"</p>
+    <div class="viz">
+      <div class="viz-bar"></div><div class="viz-bar"></div>
+      <div class="viz-bar"></div><div class="viz-bar"></div>
+      <div class="viz-bar"></div><div class="viz-bar"></div>
+      <div class="viz-bar"></div><div class="viz-bar"></div>
+      <div class="viz-bar"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 7 · GALLERY OF PERFECTION
+     ► Put anime images as anime1.jpg · anime2.jpg · anime3.jpg · anime4.jpg
+============================================================ -->
+<section id="gallery">
+  <p class="sec-title reveal">Gallery Of Perfection ✨</p>
+  <div class="gallery-grid">
+    <div class="g-item reveal">       <img src="anime1.jpg" alt=""> </div>
+    <div class="g-item reveal d1">    <img src="anime2.jpg" alt=""> </div>
+    <div class="g-item reveal d2">    <img src="anime3.jpg" alt=""> </div>
+    <div class="g-item reveal d3">    <img src="anime4.jpg" alt=""> </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 8 · HEARTFELT MESSAGE
+============================================================ -->
+<section id="heartfelt">
+  <div class="hf-card reveal">
+    <span class="hf-icon">💓</span>
+    <h3 class="hf-section-title">Heart Felt Message ❤️</h3>
+
+    <p class="hf-para">
+      I know I hurt you, and I am truly, deeply sorry for that.<br>
+      There is no excuse for what happened and I won't try to make one.<br>
+      You deserved so much better from me in that moment, and I failed you.<br>
+      But please know — hurting you was never, ever my intention.<br>
+      I care about you more than I even know how to put into words.
+    </p>
+
+    <div class="hf-divider"></div>
+
+    <p class="hf-para">
+      Every moment without your smile feels heavier than the last.<br>
+      The silence between us breaks me more than any fight ever could.<br>
+      I keep replaying everything in my head, wishing I could take it all back.<br>
+      You are not just someone I love — you are someone I truly, completely need.<br>
+      A life without you in it is not something I am even willing to imagine.
+    </p>
+
+    <div class="hf-divider"></div>
+
+    <p class="hf-para">
+      I am asking for one more chance — not because I deserve it right now.<br>
+      But because I will spend every single day proving you right to give it.<br>
+      I will be more careful, more patient, and so much more present for you.<br>
+      You mean the entire world to me, and I refuse to let my mistake define us.<br>
+      Take all the time you need — I will still be right here, waiting for you.
+    </p>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 9 · MY PROMISE TO YOU
+============================================================ -->
+<section id="promises">
+  <div class="promises-wrap">
+    <h2 class="promises-heading reveal">My Promise To You ❤️</h2>
+
+    <div class="p-card" data-d="0">
+      <span class="p-icon">🤝</span>
+      <p class="p-text">I promise I will never say those words again.</p>
+    </div>
+
+    <div class="p-card" data-d="100">
+      <span class="p-icon">🧠</span>
+      <p class="p-text">I promise I will always think before I speak.</p>
+    </div>
+
+    <div class="p-card" data-d="200">
+      <span class="p-icon">😌</span>
+      <p class="p-text">I promise I will try my hardest to never make you upset again.</p>
+    </div>
+
+    <div class="p-card" data-d="300">
+      <span class="p-icon">💛</span>
+      <p class="p-text">I promise I will always respect your feelings, no matter what.</p>
+    </div>
+
+    <div class="p-card" data-d="400">
+      <span class="p-icon">😊</span>
+      <p class="p-text">I promise I will keep trying to make you smile every single day.</p>
+    </div>
+
+    <div class="p-card" data-d="500">
+      <span class="p-icon">💖</span>
+      <p class="p-text">I promise I will never intentionally hurt your heart. Not ever again.</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 10 · CTA → WHATSAPP
+============================================================ -->
+<section id="cta">
+  <p class="cta-pre reveal">You've reached the end of this page...</p>
+  <h2 class="cta-question reveal d1">So... do you forgive me? 🥺</h2>
+  <button class="wa-btn reveal d2" id="wa-btn" onclick="openWA()">
+    [Name] Please Click 🥺❤️
+  </button>
+</section>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+
+/* ─────────────────────────────────────────────
+   CONFIGURATION
+   Change RECIPIENT_NAME to the person's name.
+   Everything else is already set.
+───────────────────────────────────────────── */
+const RECIPIENT_NAME = "Jaan"; // ← EDIT: Change to the actual name
+
+/* ─────────────────────────────────────────────
+   SET BUTTON TEXT
+───────────────────────────────────────────── */
+document.getElementById('wa-btn').textContent =
+  `${RECIPIENT_NAME} Please Click 🥺❤️`;
+
+/* ─────────────────────────────────────────────
+   WHATSAPP BUTTON
+   Auto-typed message + hardcoded number
+───────────────────────────────────────────── */
+function openWA() {
+  const msg = encodeURIComponent(
+    "Okay Baby you're forgiven 🥺 But please never do this again! " +
+    "And I Love Youuuu Tooooo.... ❣️💋😘"
+  );
+  window.open("https://wa.me/923049622076?text=" + msg, "_blank");
+}
+
+/* ─────────────────────────────────────────────
+   SCROLL PROGRESS BAR
+───────────────────────────────────────────── */
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll', function () {
+  const scrolled = window.scrollY;
+  const total    = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (scrolled / total * 100) + '%';
+}, { passive: true });
+
+/* ─────────────────────────────────────────────
+   TYPEWRITER EFFECT
+───────────────────────────────────────────── */
+const lines   = [
+  "Please forgive me...",
+  "I'm truly sorry... 🙏",
+  "Just one more chance... 🥺",
+  "Nothing feels right without you..."
+];
+let li = 0, ci = 0, del = false;
+const twEl = document.getElementById('typewriter');
+
+(function type() {
+  const txt = lines[li];
+  twEl.textContent = del ? txt.slice(0, ci - 1) : txt.slice(0, ci + 1);
+  del ? ci-- : ci++;
+  if (!del && ci > txt.length)  { del = true;  setTimeout(type, 2300); return; }
+  if (del  && ci === 0)         { del = false; li = (li + 1) % lines.length; }
+  setTimeout(type, del ? 32 : 74);
+})();
+
+/* ─────────────────────────────────────────────
+   RAIN CANVAS (hero background)
+───────────────────────────────────────────── */
+const canvas = document.getElementById('rain-canvas');
+const ctx    = canvas.getContext('2d');
+
+function resizeC() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeC();
+window.addEventListener('resize', resizeC, { passive: true });
+
+const drops = Array.from({ length: 90 }, function () {
+  return {
+    x:   Math.random() * window.innerWidth,
+    y:   Math.random() * window.innerHeight,
+    len: 12 + Math.random() * 18,
+    spd: 1.2 + Math.random() * 2.2,
+    op:  0.08 + Math.random() * 0.22
+  };
+});
+
+(function rain() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drops.forEach(function (d) {
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(255,20,50,' + d.op + ')';
+    ctx.lineWidth   = 0.6;
+    ctx.moveTo(d.x, d.y);
+    ctx.lineTo(d.x + d.len * 0.18, d.y + d.len);
+    ctx.stroke();
+    d.y += d.spd;
+    if (d.y > canvas.height + d.len) {
+      d.y = -d.len;
+      d.x = Math.random() * canvas.width;
+    }
+  });
+  requestAnimationFrame(rain);
+})();
+
+/* ─────────────────────────────────────────────
+   SCROLL REVEAL (general sections)
+───────────────────────────────────────────── */
+var revealObs = new IntersectionObserver(function (entries) {
+  entries.forEach(function (e) {
+    if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); }
+  });
+}, { threshold: 0.13 });
+
+document.querySelectorAll('.reveal').forEach(function (el) { revealObs.observe(el); });
+
+/* ─────────────────────────────────────────────
+   PROMISE CARDS — staggered slide-in
+───────────────────────────────────────────── */
+var promiseObs = new IntersectionObserver(function (entries) {
+  entries.forEach(function (e) {
+    if (e.isIntersecting) {
+      var delay = parseInt(e.target.dataset.d) || 0;
+      setTimeout(function () { e.target.classList.add('in'); }, delay);
+      promiseObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.p-card').forEach(function (el) { promiseObs.observe(el); });
+
+/* ─────────────────────────────────────────────
+   FLOATING HEART PARTICLES
+───────────────────────────────────────────── */
+var pWrap  = document.getElementById('ptcl-wrap');
+var emojis = ['❤️','💔','🥺','💕','💖','💗','🙏','😭'];
+
+function spawnPtcl() {
+  var p = document.createElement('div');
+  p.className   = 'ptcl';
+  p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  p.style.left  = (Math.random() * 100) + '%';
+  p.style.fontSize       = (0.55 + Math.random() * 0.7) + 'rem';
+  p.style.animationDuration = (11 + Math.random() * 9) + 's';
+  p.style.animationDelay    = (Math.random() * 2) + 's';
+  pWrap.appendChild(p);
+  setTimeout(function () { p.remove(); }, 22000);
+}
+
+for (var i = 0; i < 10; i++) setTimeout(spawnPtcl, i * 600);
+setInterval(spawnPtcl, 1600);
+
+</script>
+
+</body>
+</html>
