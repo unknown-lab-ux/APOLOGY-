@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>I'm Sorry 💔</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ─────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --red:#ff0033;--rose:#ff3366;--bg:#000;
+  --card:#111;--card2:#191919;
+  --w:#fff;--g:#888;--lg:#ccc;
+  --glow:rgba(255,0,51,.35);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--w);font-family:'Poppins',sans-serif;overflow-x:hidden;animation:fade-in .6s ease}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
+
+/* ── PROGRESS ──────────────────────────────── */
+#prog{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--red),var(--rose));box-shadow:0 0 12px var(--red);z-index:9999;transition:width .07s linear}
+
+/* ── PARTICLES ─────────────────────────────── */
+#ptcl{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.p{position:absolute;bottom:-30px;animation:p-rise linear infinite;opacity:0;user-select:none}
+@keyframes p-rise{
+  0%{transform:translateY(0) scale(.6);opacity:0}
+  8%{opacity:.55}88%{opacity:.3}
+  100%{transform:translateY(-110vh) scale(1.1);opacity:0}
+}
+
+/* ── SECTIONS ──────────────────────────────── */
+section{position:relative;z-index:1;padding:50px 20px}
+
+/* ── REVEAL ────────────────────────────────── */
+.rv{opacity:0;transform:translateY(42px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:40px 20px 80px;overflow:hidden;position:relative;
+  background:radial-gradient(ellipse 80% 55% at 50% 50%,rgba(255,0,50,.09) 0%,transparent 70%);
+}
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 40% at 50% 50%,rgba(255,0,51,.06) 0%,transparent 65%);
+  animation:hero-breathe 4s ease-in-out infinite;
+}
+@keyframes hero-breathe{0%,100%{opacity:.6}50%{opacity:1}}
+canvas#rain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.25}
+
+.h-title{
+  font-size:clamp(2.6rem,13vw,5.2rem);font-weight:900;color:var(--red);
+  letter-spacing:5px;line-height:1;margin-bottom:16px;
+  text-shadow:0 0 20px var(--red),0 0 55px rgba(255,0,50,.75),0 0 120px rgba(255,0,50,.45);
+  animation:neon-flicker 2.8s ease-in-out infinite;position:relative;z-index:1;
+}
+@keyframes neon-flicker{
+  0%,100%{text-shadow:0 0 20px var(--red),0 0 55px rgba(255,0,50,.75),0 0 120px rgba(255,0,50,.45)}
+  48%{text-shadow:0 0 30px var(--red),0 0 80px rgba(255,0,50,.85),0 0 160px rgba(255,0,50,.55)}
+  50%{text-shadow:0 0 12px var(--red),0 0 35px rgba(255,0,50,.4),0 0 60px rgba(255,0,50,.2)}
+  52%{text-shadow:0 0 30px var(--red),0 0 80px rgba(255,0,50,.85),0 0 160px rgba(255,0,50,.55)}
+}
+.h-emojis{font-size:2.6rem;display:block;margin-bottom:18px;animation:bob 2s ease-in-out infinite;position:relative;z-index:1}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+#tw{font-size:clamp(.9rem,4vw,1.2rem);color:var(--lg);font-weight:300;min-height:1.8rem;letter-spacing:.4px;position:relative;z-index:1}
+#tw::after{content:'|';color:var(--red);animation:blink .8s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.scroll-cue{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;color:rgba(255,255,255,.2);font-size:.6rem;letter-spacing:3px;text-transform:uppercase;z-index:1}
+.s-arrow{width:15px;height:15px;border-right:2px solid rgba(255,0,51,.4);border-bottom:2px solid rgba(255,0,51,.4);transform:rotate(45deg);animation:arrow-drop 1.6s ease-in-out infinite}
+@keyframes arrow-drop{0%,100%{transform:rotate(45deg) translateY(0);opacity:.4}50%{transform:rotate(45deg) translateY(5px);opacity:.8}}
+
+/* ══════════════════════════════════════════════
+   GIF SECTION — CSS animated boxes
+══════════════════════════════════════════════ */
+#gifs{padding:20px 20px 40px}
+.gif-row{display:flex;gap:10px;max-width:440px;margin:0 auto}
+.gif-box{flex:1;min-width:0;border-radius:18px;overflow:hidden;aspect-ratio:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:default}
+
+/* GIF 1 — crying face */
+.g1{background:linear-gradient(160deg,#1a0808,#0d0505);border:1px solid rgba(255,0,51,.15)}
+.g1::before,.g1::after{content:'';position:absolute;width:3px;border-radius:2px;background:linear-gradient(180deg,rgba(100,190,255,.9),transparent);animation:tear-fall 1s ease-in infinite}
+.g1::before{left:36%;top:54%;height:16px}
+.g1::after{right:34%;top:54%;height:14px;animation-delay:.55s}
+@keyframes tear-fall{0%{transform:translateY(0) scaleY(.5);opacity:.8}100%{transform:translateY(28px) scaleY(1.5);opacity:0}}
+.e1{font-size:3rem;animation:sob 1.1s ease-in-out infinite;display:block;position:relative;z-index:1}
+@keyframes sob{0%,100%{transform:translateY(0) rotate(-5deg) scale(1)}50%{transform:translateY(-7px) rotate(5deg) scale(1.08)}}
+
+/* GIF 2 — begging hands */
+.g2{background:linear-gradient(160deg,#0a0a1a,#060612);border:1px solid rgba(80,80,255,.12)}
+.e2{font-size:3rem;animation:plead .5s ease-in-out infinite;display:block;position:relative;z-index:1}
+@keyframes plead{0%,100%{transform:rotate(-10deg) scale(1)}50%{transform:rotate(10deg) scale(1.12)}}
+.g2-spark{position:absolute;font-size:.7rem;animation:spark-pop 1.2s ease-in-out infinite}
+.g2-spark:nth-child(2){top:18%;left:18%;animation-delay:0s}
+.g2-spark:nth-child(3){top:15%;right:16%;animation-delay:.4s}
+.g2-spark:nth-child(4){bottom:22%;left:22%;animation-delay:.8s}
+@keyframes spark-pop{0%,100%{transform:scale(0);opacity:0}50%{transform:scale(1.2);opacity:1}}
+
+/* GIF 3 — broken heart */
+.g3{background:linear-gradient(160deg,#1a0510,#0d0308);border:1px solid rgba(255,0,51,.18)}
+.e3{font-size:3rem;animation:hb-glow 1.3s ease-in-out infinite;display:block;position:relative;z-index:1}
+@keyframes hb-glow{
+  0%,100%{filter:drop-shadow(0 0 4px rgba(255,0,51,.5));transform:scale(1)}
+  40%{filter:drop-shadow(0 0 18px rgba(255,0,51,.95));transform:scale(1.18)}
+  70%{filter:drop-shadow(0 0 8px rgba(255,0,51,.6));transform:scale(.95)}
+}
+.gif-cap{font-size:.65rem;color:rgba(255,255,255,.4);font-weight:300;letter-spacing:.5px;position:relative;z-index:1}
+
+/* ══════════════════════════════════════════════
+   EMOTIONAL CARDS
+══════════════════════════════════════════════ */
+#ecards{padding:16px 20px 40px}
+.em-stack{display:flex;flex-direction:column;gap:13px;max-width:440px;margin:0 auto}
+.em-card{
+  background:var(--card);border-radius:22px;padding:28px 22px;text-align:center;
+  border:1px solid rgba(255,0,51,.07);box-shadow:0 4px 30px rgba(0,0,0,.5);
+  cursor:pointer;transition:border-color .3s ease;
+}
+.em-card:hover{border-color:rgba(255,0,51,.2)}
+.em-card.red-glow{background:linear-gradient(160deg,#120a0e,#111);border:1px solid rgba(255,0,51,.22)}
+.em-emoji{font-size:3rem;display:block;margin-bottom:13px}
+.em-card:nth-child(1) .em-emoji{animation:hb-shake 1.8s ease-in-out infinite}
+.em-card:nth-child(2) .em-emoji{animation:wobble 1.6s ease-in-out infinite}
+.em-card:nth-child(3) .em-emoji{animation:float-m 2.2s ease-in-out infinite}
+.em-card:nth-child(4) .em-emoji{animation:hb .95s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,0,51,.7))}
+@keyframes hb-shake{0%,100%{transform:scale(1) rotate(0)}30%{transform:scale(1.07) rotate(-4deg)}60%{transform:scale(.93) rotate(4deg)}}
+@keyframes wobble{0%,100%{transform:scale(1) rotate(0)}25%{transform:scale(1.1) rotate(-6deg)}75%{transform:scale(.95) rotate(6deg)}}
+@keyframes float-m{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.05)}}
+@keyframes hb{0%,100%{transform:scale(1)}14%{transform:scale(1.2)}28%{transform:scale(1)}42%{transform:scale(1.12)}56%{transform:scale(1)}}
+.em-title{font-size:1.3rem;font-weight:800;margin-bottom:8px}
+.em-text{font-size:.87rem;color:var(--lg);font-weight:300;line-height:1.65}
+
+/* POP animation on click */
+@keyframes card-pop{
+  0%{transform:scale(1)}
+  30%{transform:scale(1.07) translateY(-4px);box-shadow:0 20px 60px rgba(255,0,51,.25)}
+  60%{transform:scale(.97) translateY(2px)}
+  80%{transform:scale(1.02)}
+  100%{transform:scale(1) translateY(0)}
+}
+.popping{animation:card-pop .5s cubic-bezier(.34,1.56,.64,1)!important}
+
+/* ══════════════════════════════════════════════
+   PHOTO SECTION — CSS placeholder
+══════════════════════════════════════════════ */
+#photo-sec{padding:16px 20px 40px}
+.photo-card{
+  background:var(--card);border-radius:22px;padding:28px 22px;max-width:440px;
+  margin:0 auto;text-align:center;border:1px solid rgba(255,0,51,.12);
+  box-shadow:0 4px 40px rgba(0,0,0,.6);
+}
+.photo-frame{
+  width:190px;height:190px;border-radius:20px;overflow:hidden;
+  margin:0 auto 22px;border:3px solid var(--red);
+  box-shadow:0 0 26px var(--glow),0 0 70px rgba(255,0,51,.1);
+  position:relative;background:linear-gradient(135deg,#1a0a1a,#0a0a1a);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.photo-frame::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 40%,rgba(255,0,51,.12) 0%,transparent 65%);
+}
+.baby-emoji{font-size:4.5rem;animation:baby-cute 2s ease-in-out infinite;display:block;position:relative;z-index:1}
+@keyframes baby-cute{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}}
+.photo-ph-text{font-size:.68rem;color:rgba(255,255,255,.35);letter-spacing:.5px;position:relative;z-index:1;margin-top:4px}
+.photo-title{font-size:1.5rem;font-weight:800;margin-bottom:8px}
+.photo-sub{font-size:.9rem;color:var(--lg);font-weight:300}
+
+/* ══════════════════════════════════════════════
+   VIDEO SECTION — CSS placeholder
+══════════════════════════════════════════════ */
+#vid-sec{padding:16px 20px 40px}
+.vid-heading{text-align:center;font-size:1.8rem;font-weight:800;margin-bottom:18px}
+.vid-ph{
+  max-width:440px;margin:0 auto;border-radius:20px;overflow:hidden;
+  border:2px solid rgba(255,0,51,.2);box-shadow:0 0 50px rgba(255,0,51,.07);
+  background:linear-gradient(160deg,#0f0a10,#080808);
+  aspect-ratio:9/16;max-height:60vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;position:relative;
+}
+.vid-ph::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 40%,rgba(255,0,51,.06) 0%,transparent 65%);
+}
+.play-ring{
+  width:70px;height:70px;border-radius:50%;
+  border:2px solid rgba(255,0,51,.5);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;animation:play-pulse 2s ease-in-out infinite;
+}
+.play-ring::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px solid rgba(255,0,51,.2);animation:play-pulse 2s ease-in-out infinite;animation-delay:.4s;
+}
+@keyframes play-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,0,51,.3)}50%{box-shadow:0 0 0 12px rgba(255,0,51,0)}}
+.play-tri{
+  width:0;height:0;
+  border-top:14px solid transparent;border-bottom:14px solid transparent;
+  border-left:24px solid var(--red);margin-left:5px;
+}
+.vid-ph-title{font-size:.95rem;font-weight:600;color:var(--w);position:relative;z-index:1}
+.vid-ph-sub{font-size:.72rem;color:var(--g);position:relative;z-index:1;letter-spacing:.5px}
+.vid-bars{display:flex;gap:4px;align-items:flex-end;height:20px;position:relative;z-index:1}
+.vb{width:4px;border-radius:2px;background:rgba(255,0,51,.4);animation:vid-dance .9s ease-in-out infinite;transform-origin:bottom}
+.vb:nth-child(1){height:40%;animation-delay:0s}.vb:nth-child(2){height:70%;animation-delay:.12s}
+.vb:nth-child(3){height:100%;animation-delay:.06s}.vb:nth-child(4){height:55%;animation-delay:.18s}
+.vb:nth-child(5){height:80%;animation-delay:.09s}
+@keyframes vid-dance{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+
+/* ══════════════════════════════════════════════
+   SONG SECTION
+══════════════════════════════════════════════ */
+#song-sec{padding:16px 20px 40px}
+.sec-title{text-align:center;font-size:1.8rem;font-weight:800;margin-bottom:18px}
+.song-card{
+  max-width:440px;margin:0 auto;
+  background:linear-gradient(145deg,#120a12,#0d0d0d);
+  border-radius:22px;padding:26px 22px;border:1px solid rgba(255,0,51,.18);
+  position:relative;overflow:hidden;
+}
+.song-blob{
+  position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,0,51,.07) 0%,transparent 65%);
+  animation:blob-drift 7s ease-in-out infinite;pointer-events:none;
+}
+@keyframes blob-drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-12px,14px) scale(1.1)}}
+.song-hdr{display:flex;gap:14px;align-items:center;margin-bottom:18px;position:relative;z-index:1}
+.disc{
+  width:66px;height:66px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(#ff0033,#550011,#ff3366,#ff0033);
+  display:flex;align-items:center;justify-content:center;font-size:1.8rem;
+  animation:disc-spin 4s linear infinite;box-shadow:0 0 22px rgba(255,0,51,.5);position:relative;
+}
+.disc::after{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:var(--card);border:2px solid rgba(255,0,51,.3)}
+@keyframes disc-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.s-meta{flex:1;position:relative;z-index:1}
+.s-name{font-size:.98rem;font-weight:700;margin-bottom:4px}
+.s-artist{font-size:.78rem;color:var(--g)}
+.s-tagline{font-size:.8rem;color:#aaa;font-style:italic;text-align:center;margin-bottom:16px;border-top:1px solid rgba(255,255,255,.05);padding-top:14px;position:relative;z-index:1}
+.viz{display:flex;gap:4px;align-items:flex-end;height:34px;justify-content:center;position:relative;z-index:1}
+.vz{width:5px;border-radius:3px;background:linear-gradient(0deg,var(--red),var(--rose));animation:vz-d .75s ease-in-out infinite;transform-origin:bottom}
+.vz:nth-child(1){height:45%;animation-delay:0s}.vz:nth-child(2){height:85%;animation-delay:.07s}
+.vz:nth-child(3){height:35%;animation-delay:.14s}.vz:nth-child(4){height:70%;animation-delay:.21s}
+.vz:nth-child(5){height:100%;animation-delay:.09s}.vz:nth-child(6){height:52%;animation-delay:.28s}
+.vz:nth-child(7){height:78%;animation-delay:.17s}.vz:nth-child(8){height:40%;animation-delay:.03s}
+.vz:nth-child(9){height:62%;animation-delay:.25s}
+@keyframes vz-d{0%,100%{transform:scaleY(.32)}50%{transform:scaleY(1)}}
+
+/* ══════════════════════════════════════════════
+   GALLERY — inline SVG art
+══════════════════════════════════════════════ */
+#gallery{padding:16px 20px 40px}
+.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:440px;margin:0 auto}
+.g-item{border-radius:16px;overflow:hidden;aspect-ratio:1;border:1px solid rgba(255,255,255,.05);position:relative}
+.g-item:first-child{grid-column:1/-1;aspect-ratio:16/9}
+.g-item svg{width:100%;height:100%;display:block}
+
+/* ══════════════════════════════════════════════
+   HEARTFELT MESSAGE
+══════════════════════════════════════════════ */
+#hf-sec{padding:16px 20px 40px}
+.hf-card{
+  max-width:440px;margin:0 auto;
+  background:linear-gradient(160deg,#130810,#0f0f0f);
+  border-radius:22px;padding:32px 24px;border:1px solid rgba(255,0,51,.15);
+  text-align:center;
+}
+.hf-ico{font-size:2.8rem;display:block;margin-bottom:18px;animation:hb 1.1s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,0,51,.6))}
+.hf-ttl{font-size:1.45rem;font-weight:800;margin-bottom:22px}
+.hf-p{font-size:.9rem;color:var(--lg);line-height:1.9;font-weight:300;text-align:left;margin-bottom:18px}
+.hf-p:last-of-type{margin-bottom:0}
+.hf-div{width:40px;height:2px;background:var(--red);margin:18px auto;border-radius:2px;opacity:.5}
+
+/* ══════════════════════════════════════════════
+   PROMISES
+══════════════════════════════════════════════ */
+#prom-sec{padding:16px 20px 40px}
+.prom-wrap{max-width:440px;margin:0 auto}
+.prom-ttl{text-align:center;font-size:1.8rem;font-weight:800;margin-bottom:22px}
+.p-card{
+  background:var(--card2);border-radius:16px;padding:17px 18px;margin-bottom:11px;
+  display:flex;align-items:flex-start;gap:13px;border-left:3px solid var(--red);
+  box-shadow:0 3px 20px rgba(0,0,0,.4);
+  opacity:0;transform:translateX(-32px);transition:opacity .5s ease,transform .5s ease;
+}
+.p-card.in{opacity:1;transform:none}
+.p-ico{font-size:1.2rem;flex-shrink:0;margin-top:2px}
+.p-txt{font-size:.87rem;color:var(--lg);line-height:1.55;font-weight:300}
+
+/* ══════════════════════════════════════════════
+   CTA
+══════════════════════════════════════════════ */
+#cta{text-align:center;padding:50px 24px 100px;background:radial-gradient(ellipse 90% 60% at 50% 50%,rgba(255,0,50,.06) 0%,transparent 70%)}
+.cta-pre{font-size:.8rem;color:var(--g);letter-spacing:1.5px;margin-bottom:14px;text-transform:uppercase}
+.cta-q{font-size:clamp(1.4rem,5.5vw,1.8rem);font-weight:800;margin-bottom:36px;line-height:1.3}
+.wa-btn{
+  display:inline-block;background:linear-gradient(140deg,#ff0033,#cc001a);
+  color:#fff;padding:20px 44px;border-radius:50px;font-size:1.02rem;font-weight:700;
+  letter-spacing:.4px;border:none;cursor:pointer;font-family:'Poppins',sans-serif;
+  position:relative;overflow:hidden;
+  box-shadow:0 0 32px rgba(255,0,51,.6),0 0 80px rgba(255,0,51,.22),inset 0 1px 0 rgba(255,255,255,.12);
+  animation:btn-throb 2s ease-in-out infinite;transition:transform .15s ease;
+}
+.wa-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:sweep 2.8s ease-in-out infinite}
+.wa-btn:active{transform:scale(.96)}
+@keyframes btn-throb{
+  0%,100%{box-shadow:0 0 32px rgba(255,0,51,.6),0 0 80px rgba(255,0,51,.22)}
+  50%{box-shadow:0 0 55px rgba(255,0,51,.85),0 0 130px rgba(255,0,51,.42)}
+}
+@keyframes sweep{0%{left:-100%}45%,100%{left:100%}}
+
+/* ── DESKTOP ───────────────────────────────── */
+@media(min-width:768px){
+  section{padding:60px 40px}
+  .em-stack,.gal-grid{max-width:560px}
+  .song-card,.hf-card,.prom-wrap,.photo-card,.vid-ph{max-width:520px}
+  .h-title{letter-spacing:8px}
+}
+
+/* ── REDUCED MOTION ────────────────────────── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv,.p-card{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div id="ptcl"></div>
+
+<!-- ══ HERO ════════════════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="rain"></canvas>
+  <h1 class="h-title">SORRYYYYY</h1>
+  <span class="h-emojis">😭 ❤️</span>
+  <p id="tw"></p>
+  <div class="scroll-cue"><span>scroll</span><div class="s-arrow"></div></div>
+</section>
+
+<!-- ══ CSS ANIMATED GIF SECTION ════════════════════════════════ -->
+<section id="gifs">
+  <div class="gif-row">
+    <!-- GIF 1: Crying -->
+    <div class="gif-box g1 rv">
+      <span class="e1">😭</span>
+      <span class="gif-cap">I'm so sorry...</span>
+    </div>
+    <!-- GIF 2: Begging -->
+    <div class="gif-box g2 rv d1">
+      <span class="g2-spark">✨</span>
+      <span class="g2-spark">✨</span>
+      <span class="g2-spark">✨</span>
+      <span class="e2">🙏</span>
+      <span class="gif-cap">Please forgive me...</span>
+    </div>
+    <!-- GIF 3: Broken heart -->
+    <div class="gif-box g3 rv d2">
+      <span class="e3">💔</span>
+      <span class="gif-cap">Without you...</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EMOTIONAL CARDS ══════════════════════════════════════════ -->
+<section id="ecards">
+  <div class="em-stack">
+    <div class="em-card rv">
+      <span class="em-emoji">💔</span>
+      <h3 class="em-title">It Was My Fault</h3>
+      <p class="em-text">I realize my words hurt you deeply. No excuses, no justifications — just a genuine, heartfelt sorry from the bottom of my soul.</p>
+    </div>
+    <div class="em-card rv d1">
+      <span class="em-emoji">🥺</span>
+      <h3 class="em-title">Please Don't Stay Mad</h3>
+      <p class="em-text">Everything feels off without you. The world honestly makes no sense when you're upset with me.</p>
+    </div>
+    <div class="em-card rv d2">
+      <span class="em-emoji">❤️</span>
+      <h3 class="em-title">You Matter To Me</h3>
+      <p class="em-text">You are the most important part of my life. I don't take that lightly — not for a single second.</p>
+    </div>
+    <div class="em-card red-glow rv d3">
+      <span class="em-emoji">❤️</span>
+      <h3 class="em-title">My Heart Beats For You ❤️</h3>
+      <p class="em-text">Please let go of the anger... I miss you more than any words can ever explain.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PHOTO — CSS placeholder ══════════════════════════════════ -->
+<section id="photo-sec">
+  <div class="photo-card rv">
+    <div class="photo-frame">
+      <span class="baby-emoji">👶</span>
+      <span class="photo-ph-text">Your Any Photo Here</span>
+    </div>
+    <h3 class="photo-title">SORRYYYYY 😭</h3>
+    <p class="photo-sub">Just one forgiveness please... that's all I'm asking for.</p>
+  </div>
+</section>
+
+<!-- ══ VIDEO — CSS placeholder ══════════════════════════════════ -->
+<section id="vid-sec">
+  <p class="vid-heading rv">Just Watch This ❤️</p>
+  <div class="vid-ph rv d1">
+    <div class="play-ring"><div class="play-tri"></div></div>
+    <p class="vid-ph-title">Your Any Video Here</p>
+    <p class="vid-ph-sub">A personal video message</p>
+    <div class="vid-bars">
+      <div class="vb"></div><div class="vb"></div><div class="vb"></div>
+      <div class="vb"></div><div class="vb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SONG ══════════════════════════════════════════════════════ -->
+<section id="song-sec">
+  <p class="sec-title rv">🎵 A Song Dedicated To You</p>
+  <div class="song-card rv d1">
+    <div class="song-blob"></div>
+    <div class="song-hdr">
+      <div class="disc">🎵</div>
+      <div class="s-meta">
+        <div class="s-name">Song Name Here</div><!-- ← EDIT -->
+        <div class="s-artist">Artist Name</div>  <!-- ← EDIT -->
+      </div>
+    </div>
+    <p class="s-tagline">"This one's for you... every single word is meant for you 💔"</p>
+    <div class="viz">
+      <div class="vz"></div><div class="vz"></div><div class="vz"></div>
+      <div class="vz"></div><div class="vz"></div><div class="vz"></div>
+      <div class="vz"></div><div class="vz"></div><div class="vz"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY — inline SVG art ═════════════════════════════════ -->
+<section id="gallery">
+  <p class="sec-title rv">Gallery Of Perfection ✨</p>
+  <div class="gal-grid">
+
+    <!-- Item 1: Full-width — Starry Night Couple -->
+    <div class="g-item rv">
+      <svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#04000f"/><stop offset="100%" stop-color="#1a0032"/>
+          </linearGradient>
+          <radialGradient id="moon-g"><stop offset="0%" stop-color="#fff8d8"/><stop offset="100%" stop-color="#ffd060"/></radialGradient>
+          <radialGradient id="hglow"><stop offset="0%" stop-color="rgba(255,0,51,.5)"/><stop offset="100%" stop-color="rgba(255,0,51,0)"/></radialGradient>
+        </defs>
+        <rect width="440" height="200" fill="url(#sky)"/>
+        <!-- Stars -->
+        <circle cx="28" cy="18" r="1.5" fill="white" opacity=".9"/><circle cx="68" cy="32" r="1" fill="white" opacity=".7"/>
+        <circle cx="115" cy="14" r="1.5" fill="white" opacity=".8"/><circle cx="158" cy="42" r="1" fill="white" opacity=".6"/>
+        <circle cx="198" cy="18" r="1.5" fill="white" opacity=".9"/><circle cx="242" cy="9" r="1" fill="white" opacity=".7"/>
+        <circle cx="278" cy="33" r="1.5" fill="white" opacity=".8"/><circle cx="318" cy="18" r="1" fill="white" opacity=".6"/>
+        <circle cx="360" cy="14" r="1.5" fill="white" opacity=".9"/><circle cx="400" cy="38" r="1" fill="white" opacity=".7"/>
+        <circle cx="422" cy="22" r="1.5" fill="white" opacity=".8"/><circle cx="52" cy="55" r="1" fill="white" opacity=".5"/>
+        <circle cx="302" cy="52" r="1" fill="white" opacity=".5"/><circle cx="382" cy="62" r="1.5" fill="white" opacity=".6"/>
+        <!-- Moon -->
+        <circle cx="368" cy="48" r="26" fill="url(#moon-g)" opacity=".85"/>
+        <circle cx="376" cy="40" r="20" fill="#0a001e" opacity=".35"/>
+        <!-- Ground -->
+        <path d="M0 152 Q100 130 220 148 Q330 165 440 150 L440 200 L0 200Z" fill="#09001a"/>
+        <!-- Trees left -->
+        <rect x="40" y="122" width="5" height="38" rx="2.5" fill="#04000c"/>
+        <ellipse cx="42" cy="116" rx="16" ry="22" fill="#08001a"/>
+        <rect x="78" y="130" width="4" height="28" rx="2" fill="#04000c"/>
+        <ellipse cx="80" cy="125" rx="12" ry="17" fill="#08001a"/>
+        <!-- Trees right -->
+        <rect x="356" y="120" width="5" height="40" rx="2.5" fill="#04000c"/>
+        <ellipse cx="358" cy="114" rx="16" ry="22" fill="#08001a"/>
+        <rect x="394" y="130" width="4" height="28" rx="2" fill="#04000c"/>
+        <ellipse cx="396" cy="125" rx="12" ry="17" fill="#08001a"/>
+        <!-- Boy silhouette -->
+        <ellipse cx="240" cy="110" rx="12" ry="14" fill="#04000c"/>
+        <path d="M228 107 Q236 94 248 99 Q253 97 251 110" fill="#04000c"/>
+        <rect x="229" y="122" width="22" height="42" rx="4" fill="#04000c"/>
+        <rect x="230" y="162" width="9" height="20" rx="4" fill="#04000c"/>
+        <rect x="241" y="162" width="9" height="20" rx="4" fill="#04000c"/>
+        <!-- Girl silhouette -->
+        <ellipse cx="202" cy="112" rx="11" ry="13" fill="#04000c"/>
+        <path d="M192 110 Q196 96 205 96 Q214 96 213 112 Q215 130 212 165" fill="#04000c"/>
+        <path d="M192 116 Q188 140 190 168" stroke="#04000c" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M198 168 Q201 155 204 168" fill="#04000c"/>
+        <!-- Joined hands -->
+        <line x1="213" y1="136" x2="229" y2="136" stroke="#04000c" stroke-width="6" stroke-linecap="round"/>
+        <!-- Heart glow -->
+        <ellipse cx="220" cy="82" rx="22" ry="16" fill="url(#hglow)"/>
+        <!-- Heart -->
+        <path d="M220 93 C220 85 212 79 212 86 C212 93 220 101 220 101 C220 101 228 93 228 86 C228 79 220 85 220 93" fill="#ff0033"/>
+        <!-- Caption -->
+        <text x="220" y="195" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="8.5" font-family="Poppins,sans-serif">Forever &amp; Always 💕</text>
+      </svg>
+    </div>
+
+    <!-- Item 2: Anime Girl Portrait -->
+    <div class="g-item rv d1">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="g2bg" cx="50%" cy="30%">
+            <stop offset="0%" stop-color="#280830"/><stop offset="100%" stop-color="#0f0015"/>
+          </radialGradient>
+          <radialGradient id="g2face" cx="50%" cy="40%">
+            <stop offset="0%" stop-color="#ffd0a8"/><stop offset="100%" stop-color="#f5a870"/>
+          </radialGradient>
+        </defs>
+        <rect width="200" height="200" fill="url(#g2bg)"/>
+        <!-- Petal deco -->
+        <ellipse cx="28" cy="36" rx="9" ry="4.5" fill="rgba(255,120,160,.22)" transform="rotate(-30 28 36)"/>
+        <ellipse cx="172" cy="55" rx="7" ry="3.5" fill="rgba(255,120,160,.18)" transform="rotate(20 172 55)"/>
+        <ellipse cx="185" cy="25" rx="10" ry="5" fill="rgba(255,120,160,.15)" transform="rotate(-10 185 25)"/>
+        <ellipse cx="15" cy="155" rx="8" ry="4" fill="rgba(255,120,160,.15)" transform="rotate(15 15 155)"/>
+        <!-- Stars -->
+        <circle cx="18" cy="18" r="1.5" fill="white" opacity=".6"/><circle cx="182" cy="22" r="1" fill="white" opacity=".5"/>
+        <circle cx="188" cy="172" r="1.5" fill="white" opacity=".4"/><circle cx="10" cy="180" r="1" fill="white" opacity=".4"/>
+        <!-- Hair back -->
+        <path d="M68 98 Q64 160 68 200 L132 200 Q136 160 132 98" fill="#1e0828"/>
+        <!-- Hair top (front) -->
+        <path d="M68 88 Q73 58 100 56 Q127 58 132 88 Q138 68 128 56 Q100 42 72 56 Q62 68 68 88" fill="#2a0a38"/>
+        <!-- Face -->
+        <ellipse cx="100" cy="108" rx="38" ry="46" fill="url(#g2face)"/>
+        <!-- Blush -->
+        <ellipse cx="74" cy="124" rx="11" ry="5.5" fill="rgba(255,100,130,.32)"/>
+        <ellipse cx="126" cy="124" rx="11" ry="5.5" fill="rgba(255,100,130,.32)"/>
+        <!-- Eyes -->
+        <ellipse cx="85" cy="106" rx="9" ry="12" fill="#1e0828"/>
+        <ellipse cx="85" cy="106" rx="6" ry="9" fill="#38085a"/>
+        <ellipse cx="85" cy="106" rx="3.5" ry="4.5" fill="#050010"/>
+        <circle cx="87" cy="103" r="2.2" fill="white"/>
+        <ellipse cx="115" cy="106" rx="9" ry="12" fill="#1e0828"/>
+        <ellipse cx="115" cy="106" rx="6" ry="9" fill="#38085a"/>
+        <ellipse cx="115" cy="106" rx="3.5" ry="4.5" fill="#050010"/>
+        <circle cx="117" cy="103" r="2.2" fill="white"/>
+        <!-- Eyelashes -->
+        <path d="M76 95 Q77 91 80 90" stroke="#1e0828" stroke-width="1.5" fill="none"/>
+        <path d="M81 93 Q81 89 84 88" stroke="#1e0828" stroke-width="1.5" fill="none"/>
+        <path d="M86 93 Q86 89 89 88" stroke="#1e0828" stroke-width="1.5" fill="none"/>
+        <path d="M109 93 Q109 89 106 88" stroke="#1e0828" stroke-width="1.5" fill="none"/>
+        <path d="M114 93 Q114 89 117 88" stroke="#1e0828" stroke-width="1.5" fill="none"/>
+        <path d="M119 94 Q120 90 123 91" stroke="#1e0828" stroke-width="1.5" fill="none"/>
+        <!-- Nose -->
+        <ellipse cx="100" cy="122" rx="2.5" ry="1.8" fill="rgba(190,90,70,.28)"/>
+        <!-- Mouth -->
+        <path d="M89 136 Q100 146 111 136" stroke="rgba(190,70,70,.65)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <!-- Side hair -->
+        <path d="M68 84 Q65 128 68 152" stroke="#2a0a38" stroke-width="11" fill="none" stroke-linecap="round"/>
+        <!-- Hair star accessory -->
+        <path d="M146 68 L148 62 L150 68 L156 68 L151 72 L153 78 L148 74 L143 78 L145 72 L140 68Z" fill="rgba(255,210,40,.65)" transform="scale(.65) translate(80,45)"/>
+        <!-- Caption -->
+        <text x="100" y="194" text-anchor="middle" fill="rgba(255,190,220,.4)" font-size="8.5" font-family="Poppins,sans-serif">You're Perfect 🌸</text>
+      </svg>
+    </div>
+
+    <!-- Item 3: Couple Embrace -->
+    <div class="g-item rv d2">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g3bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#080512"/><stop offset="50%" stop-color="#130a20"/><stop offset="100%" stop-color="#080510"/>
+          </linearGradient>
+          <radialGradient id="g3c" cx="50%" cy="45%">
+            <stop offset="0%" stop-color="rgba(255,0,51,.12)"/><stop offset="100%" stop-color="rgba(255,0,51,0)"/>
+          </radialGradient>
+        </defs>
+        <rect width="200" height="200" fill="url(#g3bg)"/>
+        <ellipse cx="100" cy="95" rx="65" ry="55" fill="url(#g3c)"/>
+        <!-- Petals -->
+        <ellipse cx="35" cy="28" rx="8" ry="4" fill="rgba(255,100,120,.28)" transform="rotate(-30 35 28)"/>
+        <ellipse cx="168" cy="45" rx="6" ry="3" fill="rgba(255,100,120,.22)" transform="rotate(20 168 45)"/>
+        <ellipse cx="55" cy="172" rx="7" ry="3.5" fill="rgba(255,100,120,.18)" transform="rotate(15 55 172)"/>
+        <ellipse cx="162" cy="162" rx="8" ry="4" fill="rgba(255,100,120,.25)" transform="rotate(-25 162 162)"/>
+        <!-- Boy head -->
+        <ellipse cx="83" cy="68" rx="17" ry="19" fill="#080015"/>
+        <!-- Boy hair spiky -->
+        <path d="M66 65 Q72 50 83 48 Q94 50 100 65 Q96 52 83 52 Q70 52 66 65" fill="#140a28"/>
+        <!-- Boy body -->
+        <rect x="68" y="85" width="30" height="50" rx="7" fill="#080015"/>
+        <!-- Boy arms around -->
+        <path d="M68 96 Q50 110 54 135 Q58 148 72 142" stroke="#080015" stroke-width="13" fill="none" stroke-linecap="round"/>
+        <!-- Boy legs -->
+        <rect x="69" y="133" width="12" height="32" rx="5" fill="#060010"/>
+        <rect x="83" y="133" width="12" height="32" rx="5" fill="#060010"/>
+        <!-- Girl head -->
+        <ellipse cx="120" cy="72" rx="15" ry="17" fill="#080015"/>
+        <!-- Girl long hair -->
+        <path d="M106 70 Q104 108 108 160" stroke="#140a28" stroke-width="9" fill="none" stroke-linecap="round"/>
+        <path d="M134 70 Q136 108 133 155" stroke="#140a28" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <path d="M106 65 Q110 52 120 50 Q130 52 134 65 Q130 54 120 54 Q110 54 106 65" fill="#140a28"/>
+        <!-- Girl body/dress -->
+        <path d="M107 88 Q100 138 102 170 L138 170 Q140 138 133 88Z" fill="#080015"/>
+        <!-- Girl arm -->
+        <path d="M133 98 Q143 110 140 132" stroke="#080015" stroke-width="11" fill="none" stroke-linecap="round"/>
+        <!-- Heart above -->
+        <circle cx="100" cy="48" r="13" fill="rgba(255,0,51,.1)"/>
+        <path d="M100 58 C100 51 93 46 93 53 C93 60 100 67 100 67 C100 67 107 60 107 53 C107 46 100 51 100 58" fill="#ff0033" opacity=".9"/>
+        <!-- Caption -->
+        <text x="100" y="194" text-anchor="middle" fill="rgba(255,160,180,.4)" font-size="8.5" font-family="Poppins,sans-serif">I Need You 🤍</text>
+      </svg>
+    </div>
+
+    <!-- Item 4: Rose & Hearts -->
+    <div class="g-item rv d3">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="g4bg" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="#1a000e"/><stop offset="100%" stop-color="#080005"/>
+          </radialGradient>
+          <radialGradient id="g4glow" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="rgba(255,0,51,.22)"/><stop offset="100%" stop-color="rgba(255,0,51,0)"/>
+          </radialGradient>
+        </defs>
+        <rect width="200" height="200" fill="url(#g4bg)"/>
+        <ellipse cx="100" cy="100" rx="80" ry="80" fill="url(#g4glow)"/>
+        <!-- Stem -->
+        <line x1="100" y1="178" x2="100" y2="118" stroke="#182810" stroke-width="4" stroke-linecap="round"/>
+        <!-- Leaves -->
+        <path d="M100 152 Q80 140 78 125 Q92 136 100 152" fill="#182810"/>
+        <path d="M100 140 Q120 128 122 113 Q108 124 100 140" fill="#182810"/>
+        <!-- Rose outer petals -->
+        <ellipse cx="100" cy="102" rx="26" ry="19" fill="#b80020" transform="rotate(0 100 102)"/>
+        <ellipse cx="100" cy="102" rx="26" ry="19" fill="#c80022" transform="rotate(45 100 102)"/>
+        <ellipse cx="100" cy="102" rx="26" ry="19" fill="#b80020" transform="rotate(90 100 102)"/>
+        <ellipse cx="100" cy="102" rx="26" ry="19" fill="#c80022" transform="rotate(135 100 102)"/>
+        <!-- Mid petals -->
+        <ellipse cx="100" cy="104" rx="18" ry="13" fill="#dd0028" transform="rotate(22 100 104)"/>
+        <ellipse cx="100" cy="104" rx="18" ry="13" fill="#dd0028" transform="rotate(67 100 104)"/>
+        <ellipse cx="100" cy="104" rx="18" ry="13" fill="#dd0028" transform="rotate(112 100 104)"/>
+        <!-- Center -->
+        <circle cx="100" cy="102" r="11" fill="#ff0033"/>
+        <circle cx="100" cy="101" r="6.5" fill="#cc001a"/>
+        <circle cx="100" cy="100" r="3.5" fill="#aa0012"/>
+        <!-- Floating hearts -->
+        <path d="M44 52 C44 48 39 44 39 49 C39 54 44 58 44 58 C44 58 49 54 49 49 C49 44 44 48 44 52" fill="rgba(255,0,51,.5)"/>
+        <path d="M158 42 C158 38 153 34 153 39 C153 44 158 48 158 48 C158 48 163 44 163 39 C163 34 158 38 158 42" fill="rgba(255,0,51,.4)"/>
+        <path d="M32 162 C32 160 29 157 29 159 C29 162 32 164 32 164 C32 164 35 162 35 159 C35 157 32 160 32 162" fill="rgba(255,100,120,.4)"/>
+        <path d="M172 155 C172 153 169 150 169 152 C169 155 172 157 172 157 C172 157 175 155 175 152 C175 150 172 153 172 155" fill="rgba(255,100,120,.4)"/>
+        <!-- Sparkles -->
+        <line x1="28" y1="80" x2="28" y2="88" stroke="rgba(255,200,50,.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="84" x2="32" y2="84" stroke="rgba(255,200,50,.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="174" y1="120" x2="174" y2="128" stroke="rgba(255,200,50,.35)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="170" y1="124" x2="178" y2="124" stroke="rgba(255,200,50,.35)" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Caption -->
+        <text x="100" y="194" text-anchor="middle" fill="rgba(255,140,150,.4)" font-size="8.5" font-family="Poppins,sans-serif">You're My World 🌹</text>
+      </svg>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ HEARTFELT MESSAGE ═════════════════════════════════════════ -->
+<section id="hf-sec">
+  <div class="hf-card rv">
+    <span class="hf-ico">💓</span>
+    <h3 class="hf-ttl">Heart Felt Message ❤️</h3>
+    <p class="hf-p">
+      I know I hurt you, and I am truly, deeply sorry for that.<br>
+      There is no excuse for what happened and I won't try to make one.<br>
+      You deserved so much better from me in that moment, and I failed you.<br>
+      But please know — hurting you was never, ever my intention.<br>
+      I care about you more than I even know how to express in words.
+    </p>
+    <div class="hf-div"></div>
+    <p class="hf-p">
+      Every moment without your smile feels heavier than the last.<br>
+      The silence between us breaks me more than any fight ever could.<br>
+      I keep replaying everything in my head, wishing I could take it all back.<br>
+      You are not just someone I love — you are someone I truly, completely need.<br>
+      A life without you in it is not something I am even willing to imagine.
+    </p>
+    <div class="hf-div"></div>
+    <p class="hf-p">
+      I am asking for one more chance — not because I deserve it right now.<br>
+      But because I will spend every single day proving you right to give it.<br>
+      I will be more careful, more patient, and so much more present for you.<br>
+      You mean the entire world to me — I refuse to let my mistake define us.<br>
+      Take all the time you need. I will still be right here, waiting for you.
+    </p>
+  </div>
+</section>
+
+<!-- ══ PROMISES ══════════════════════════════════════════════════ -->
+<section id="prom-sec">
+  <div class="prom-wrap">
+    <h2 class="prom-ttl rv">My Promise To You ❤️</h2>
+    <div class="p-card" data-d="0"><span class="p-ico">🤝</span><p class="p-txt">I promise I will never say those words again.</p></div>
+    <div class="p-card" data-d="100"><span class="p-ico">🧠</span><p class="p-txt">I promise I will always think before I speak.</p></div>
+    <div class="p-card" data-d="200"><span class="p-ico">😌</span><p class="p-txt">I promise I will try my hardest to never make you upset again.</p></div>
+    <div class="p-card" data-d="300"><span class="p-ico">💛</span><p class="p-txt">I promise I will always respect your feelings, no matter what.</p></div>
+    <div class="p-card" data-d="400"><span class="p-ico">😊</span><p class="p-txt">I promise I will keep trying to make you smile every single day.</p></div>
+    <div class="p-card" data-d="500"><span class="p-ico">💖</span><p class="p-txt">I promise I will never intentionally hurt your heart. Not ever again.</p></div>
+  </div>
+</section>
+
+<!-- ══ CTA ═══════════════════════════════════════════════════════ -->
+<section id="cta">
+  <p class="cta-pre rv">You've reached the end of this page...</p>
+  <h2 class="cta-q rv d1">So... do you forgive me? 🥺</h2>
+  <button class="wa-btn rv d2" id="wa-btn" onclick="openWA()">Jaan Please Click 🥺❤️</button>
+</section>
+
+<!-- ══ JS ═════════════════════════════════════════════════════════ -->
+<script>
+/* ── CONFIG ── Edit RECIPIENT_NAME only ─────── */
+const RECIPIENT_NAME = "Jaan"; // ← change name here
+document.getElementById('wa-btn').textContent = RECIPIENT_NAME + " Please Click 🥺❤️";
+
+/* ── WHATSAPP ───────────────────────────────── */
+function openWA(){
+  const msg = encodeURIComponent("Okay Baby you're forgiven 🥺 But please never do this again! And I Love Youuuu Tooooo.... ❣️💋😘");
+  window.open("https://wa.me/923049622076?text="+msg,"_blank");
+}
+
+/* ── SCROLL PROGRESS ────────────────────────── */
+const prog = document.getElementById('prog');
+window.addEventListener('scroll',function(){
+  const s=window.scrollY, t=document.documentElement.scrollHeight-window.innerHeight;
+  prog.style.width=(s/t*100)+'%';
+},{passive:true});
+
+/* ── TYPEWRITER ─────────────────────────────── */
+const lines=["Please forgive me...","I'm truly sorry... 🙏","Just one more chance... 🥺","Nothing feels right without you..."];
+let li=0,ci=0,del=false;
+const twEl=document.getElementById('tw');
+(function type(){
+  const txt=lines[li];
+  twEl.textContent=del?txt.slice(0,ci-1):txt.slice(0,ci+1);
+  del?ci--:ci++;
+  if(!del&&ci>txt.length){del=true;setTimeout(type,2300);return;}
+  if(del&&ci===0){del=false;li=(li+1)%lines.length;}
+  setTimeout(type,del?32:74);
+})();
+
+/* ── RAIN CANVAS ────────────────────────────── */
+const cv=document.getElementById('rain');
+const cx=cv.getContext('2d');
+function sz(){cv.width=cv.parentElement.offsetWidth;cv.height=cv.parentElement.offsetHeight;}
+sz();window.addEventListener('resize',sz,{passive:true});
+const drops=Array.from({length:85},()=>({x:Math.random()*800,y:Math.random()*900,l:12+Math.random()*18,s:1.2+Math.random()*2,o:.07+Math.random()*0.2}));
+(function rain(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  drops.forEach(d=>{
+    cx.beginPath();cx.strokeStyle='rgba(255,20,50,'+d.o+')';cx.lineWidth=.6;
+    cx.moveTo(d.x,d.y);cx.lineTo(d.x+d.l*.18,d.y+d.l);cx.stroke();
+    d.y+=d.s;
+    if(d.y>cv.height+d.l){d.y=-d.l;d.x=Math.random()*cv.width;}
+  });
+  requestAnimationFrame(rain);
+})();
+
+/* ── SCROLL REVEAL ──────────────────────────── */
+const ro=new IntersectionObserver(e=>{
+  e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('in');ro.unobserve(el.target);}});
+},{threshold:.13});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+/* ── PROMISE CARDS STAGGER ──────────────────── */
+const po=new IntersectionObserver(e=>{
+  e.forEach(el=>{
+    if(el.isIntersecting){
+      setTimeout(()=>el.target.classList.add('in'),parseInt(el.target.dataset.d)||0);
+      po.unobserve(el.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.p-card').forEach(el=>po.observe(el));
+
+/* ── CARD POP ON CLICK ──────────────────────── */
+document.querySelectorAll('.em-card').forEach(c=>{
+  c.addEventListener('click',function(){
+    this.classList.remove('popping');
+    void this.offsetWidth;
+    this.classList.add('popping');
+  });
+  c.addEventListener('animationend',function(){this.classList.remove('popping');});
+});
+
+/* ── FLOATING PARTICLES ─────────────────────── */
+const pw=document.getElementById('ptcl');
+const em=['❤️','💔','🥺','💕','💖','💗','🙏','😭'];
+function sp(){
+  const p=document.createElement('div');p.className='p';
+  p.textContent=em[Math.floor(Math.random()*em.length)];
+  p.style.cssText='left:'+(Math.random()*100)+'%;font-size:'+(0.5+Math.random()*.7)+'rem;animation-duration:'+(11+Math.random()*9)+'s;animation-delay:'+(Math.random()*2)+'s;';
+  pw.appendChild(p);setTimeout(()=>p.remove(),22000);
+}
+for(let i=0;i<10;i++)setTimeout(sp,i*600);
+setInterval(sp,1600);
+</script>
+</body>
+</html>
